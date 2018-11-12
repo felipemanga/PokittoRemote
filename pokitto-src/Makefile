@@ -244,8 +244,6 @@ C_FLAGS += -DDEVICE_PWMOUT=1
 C_FLAGS += -DTARGET_LIKE_CORTEX_M0
 C_FLAGS += -include
 C_FLAGS += mbed_config.h
-#C_FLAGS += -D_OSCT=2
-#CXX_FLAGS += -D_OSCT=2
 CXX_FLAGS += -std=c++14
 CXX_FLAGS += -fno-rtti
 CXX_FLAGS += -Wvla
