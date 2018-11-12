@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <style>
+	 #image, html, body {
+	     position: absolute;
+	     top: 0;
+	     left: 0;
+	     right: 0;
+	     bottom: 0;
+	     margin: 0;
+	 }
+	 
+	 #fps {
+	     position: absolute;
+	     font: 24px monospace;
+	     color: red;
+	     font-weight: bold;
+	 }
+        </style>
+    </head>
+    <body>
+        <video id="capture" autoplay style="display:none;"></video>
+        <canvas id="image"></canvas>
+	<div id="fps">FPS</div>
+        <script src="index.js">
+        </script>
+    </body>
+</html>

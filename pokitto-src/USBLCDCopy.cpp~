@@ -1,0 +1,12 @@
+#include <cstdint>
+
+typedef struct {
+    uint8_t out[MAX_PACKET_SIZE_EP0];
+    uint8_t in[MAX_PACKET_SIZE_EP0];
+    uint8_t setup[SETUP_PACKET_SIZE];
+} PACKED CONTROL_TRANSFER;
+
+extern CONTROL_TRANSFER *ct;
+
+void USBLCDCopy( uint32_t size ){
+}
