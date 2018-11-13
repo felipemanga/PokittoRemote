@@ -47,6 +47,10 @@
 class USBSerial: public USBCDC, public Stream {
 public:
 
+    bool send(uint8_t * buffer, uint32_t size){
+	return USBCDC::send(buffer, size);
+    }
+
     /**
     *   Constructor
     *

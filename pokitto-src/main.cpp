@@ -33,6 +33,8 @@ extern volatile int epComplete;
 extern EP_COMMAND_STATUS *ep;
 void USBLCDCopy( uint32_t size );
 
+volatile uint32_t remaining;
+
 bool USBSerial::EPBULK_OUT_callback() {
     uint32_t size = 0;
 
@@ -70,9 +72,8 @@ bool USBSerial::EPBULK_OUT_callback() {
 	    size = (uint32_t) (endpointState[EPBULK_OUT].maxPacket - BYTES_REMAINING(ep[PHY_TO_LOG(EPBULK_OUT)].out[bf]));
 
 	    // Copy data
-	    USBLCDCopy(size);
-	    
-	    return endpointRead(EPBULK_OUT, MAX_CDC_REPORT_SIZE) == EP_PENDING;
+	    if( remaining ) USBLCDCopy(size);
+	    return endpointRead(EPBULK_OUT, MAX_CDC_REPORT_SIZE) == EP_PENDING; 
 	}
 
     }
@@ -80,11 +81,28 @@ bool USBSerial::EPBULK_OUT_callback() {
     return true;
 }
 
-USBSerial pc;
+USBSerial pc( POK_VENDOR_ID, POK_PRODUCT_ID, 0x0001, false);
+
+void update(){
+    Pokitto::Buttons::pollButtons();
+    uint8_t buf[] = {'u', Pokitto::Buttons::buttons_state };	    
+    pc.send(buf, 2);
+    remaining = 220*176;
+}
+
 int main () {
     game.begin();
+    wait(1);
     Pokitto::Display::update(false);
-    while(true){}
+    while(true){
+	while( !pc.configured() ){
+	    remaining = 0;
+	}
+	
+	if( !remaining ){
+	    update();
+	}
+    }
 
     return 1;
 }
